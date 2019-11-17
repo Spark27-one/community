@@ -48,6 +48,7 @@ public class AuthorController {
             user1.setGmtCreate(System.currentTimeMillis());
             user1.setGmtModified(user1.getGmtCreate());
             user1.setName(user.getName());
+            user1.setAvatarUrl(user.getAvatar_url());
             //System.out.println(user1.getName());
             String token=UUID.randomUUID().toString();
             user1.setToken(token);
