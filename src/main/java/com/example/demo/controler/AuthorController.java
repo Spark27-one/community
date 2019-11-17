@@ -8,11 +8,11 @@ import com.example.demo.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -31,7 +31,7 @@ public class AuthorController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request, Model model){
+                           HttpServletResponse response){
         AccessTokenDto accessTokenDto=new AccessTokenDto();
         accessTokenDto.setClient_id(client_id);
         accessTokenDto.setCode(code);
@@ -48,9 +48,12 @@ public class AuthorController {
             user1.setGmtCreate(System.currentTimeMillis());
             user1.setGmtModified(user1.getGmtCreate());
             user1.setName(user.getName());
-            user1.setToken(UUID.randomUUID().toString());
+            //System.out.println(user1.getName());
+            String token=UUID.randomUUID().toString();
+            user1.setToken(token);
             userMapper.insert(user1);
-            request.getSession().setAttribute("user",user);
+           // request.getSession().setAttribute("user",user);
+            response.addCookie(new Cookie("token",token));
             return "redirect:/";
         }else {
             //登陆失败
