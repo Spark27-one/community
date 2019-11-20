@@ -1,10 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.pojo.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 
 @Mapper
@@ -17,4 +14,8 @@ public interface UserMapper {
     User findByToken(@Param("token") String token);
     @Select("select * from user where id=#{id}")
     User findById(@Param("id") int id);
+    @Select("select * from user where account_id=#{accountId}")
+    User findByAccountId(@Param("accountId")String accountId);
+    @Update("update user set name=#{name},avatarUrl=#{avatarUrl},token=#{token},gmt_modified=#{gmtModified} where id=#{id}")
+    void update(User user);
 }
