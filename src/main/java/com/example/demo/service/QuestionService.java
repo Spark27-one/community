@@ -3,6 +3,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.PageDto;
 import com.example.demo.dto.QuestionDto;
+import com.example.demo.exception.CustomizeException;
 import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.Question;
@@ -82,6 +83,9 @@ public class QuestionService {
 
     public QuestionDto getById(Integer id) {
         Question question=questionMapper.getById(id);
+        if (question==null){
+            throw new CustomizeException("你找的问题不在了，可以换个试试哦");
+        }
         QuestionDto questionDto=new QuestionDto();
         User user=userMapper.findById(question.getCreator());
         BeanUtils.copyProperties(question,questionDto);
@@ -95,7 +99,6 @@ public class QuestionService {
             question.setGmtModified(question.getGmtCreate());
             questionMapper.insert(question);
         }
-
         else {
             question.setGmtModified(System.currentTimeMillis());
             questionMapper.update(question);
