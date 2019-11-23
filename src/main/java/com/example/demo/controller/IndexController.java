@@ -1,4 +1,4 @@
-package com.example.demo.controler;
+package com.example.demo.controller;
 
 import com.example.demo.dto.PageDto;
 import com.example.demo.service.QuestionService;
@@ -17,8 +17,7 @@ public class IndexController {
     @Autowired
     private QuestionService questionService;
     @GetMapping("/")
-    public String index(HttpServletRequest request,
-                        Model model,
+    public String index(Model model,
                         @RequestParam(name="page",defaultValue = "1") Integer page,
                         @RequestParam(name="size",defaultValue = "5") Integer size){
         PageDto pageDto= questionService.list(page,size);

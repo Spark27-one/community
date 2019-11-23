@@ -3,6 +3,8 @@ package com.example.demo.mapper;
 import com.example.demo.pojo.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 
 @Mapper
 public interface UserMapper {
@@ -18,4 +20,11 @@ public interface UserMapper {
     User findByAccountId(@Param("accountId")String accountId);
     @Update("update user set name=#{name},avatarUrl=#{avatarUrl},token=#{token},gmt_modified=#{gmtModified} where id=#{id}")
     void update(User user);
+    @Select("<script>"
+            + "SELECT * FROM user WHERE id IN "
+            + "<foreach item='item' index='index' collection='userIds'      open='(' separator=',' close=')'>"
+            + "#{item}"
+            + "</foreach>"
+            + "</script>")
+    List<User> findByIdIn(@Param("userIds")List<Integer> userIds);
 }

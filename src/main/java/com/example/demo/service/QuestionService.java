@@ -3,6 +3,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.PageDto;
 import com.example.demo.dto.QuestionDto;
+import com.example.demo.exception.CustomizeErrorCode;
 import com.example.demo.exception.CustomizeException;
 import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.mapper.UserMapper;
@@ -24,15 +25,15 @@ public class QuestionService {
     public PageDto list(Integer page, Integer size){
         PageDto pageDto=new PageDto();
         Integer totalPage;
-        Integer totalcount=questionMapper.count();
-        if (totalcount % size==0){
-            totalPage=totalcount/size;
+        Integer totalCount=questionMapper.count();
+        if (totalCount % size==0){
+            totalPage=totalCount/size;
         }else{
-            totalPage=totalcount/size+1;
+            totalPage=totalCount/size+1;
         }
         if (page<1) page=1;
-        if (page>totalPage&&totalPage!=0) page=totalPage;
-        else page=1;
+        if (page>totalPage && totalPage!=0) page=totalPage;
+       // else page=1;
         pageDto.setPageination(totalPage,page);
         if (page!=pageDto.getPage()) page=pageDto.getPage();
         Integer offset=size*(page - 1);
@@ -62,7 +63,7 @@ public class QuestionService {
         }
         if (page<1) page=1;
         if (page>totalPage&&totalPage!=0) page=totalPage;
-        else page=1;
+        //else page=1;
         pageDto.setPageination(totalPage,page);
         if (page!=pageDto.getPage()) page=pageDto.getPage();
         Integer offset=size*(page - 1);
@@ -84,7 +85,7 @@ public class QuestionService {
     public QuestionDto getById(Integer id) {
         Question question=questionMapper.getById(id);
         if (question==null){
-            throw new CustomizeException("你找的问题不在了，可以换个试试哦");
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDto questionDto=new QuestionDto();
         User user=userMapper.findById(question.getCreator());
@@ -103,5 +104,9 @@ public class QuestionService {
             question.setGmtModified(System.currentTimeMillis());
             questionMapper.update(question);
         }
+    }
+
+    public void incView(Integer id) {
+        questionMapper.updateView(id);
     }
 }

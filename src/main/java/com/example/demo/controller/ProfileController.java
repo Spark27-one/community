@@ -1,4 +1,4 @@
-package com.example.demo.controler;
+package com.example.demo.controller;
 
 import com.example.demo.dto.PageDto;
 import com.example.demo.pojo.User;
