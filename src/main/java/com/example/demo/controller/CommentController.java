@@ -28,6 +28,9 @@ public class CommentController {
         if (user==null){
             return ResultDto.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
+        if (commentCreateDto==null || commentCreateDto.getContent()==null){
+            return ResultDto.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
+        }
         Comment comment=new Comment();
         comment.setParentId(commentCreateDto.getParentId());
         comment.setContent(commentCreateDto.getContent());

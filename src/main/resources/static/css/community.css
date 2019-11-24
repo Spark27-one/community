@@ -29,6 +29,9 @@ body{
 .question-user-name{
     margin: 10px;
 }
+.question-title{
+    margin-top: 25px;
+}
 .jumbotron{
     margin: 30px;
 }

@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4><span th:text="${question.title}"></span></h4>
+                <h4 class="question-title"><span th:text="${question.title}"></span></h4>
                 <span class="text-desc">
                         发布人:<span th:text="${question.user.name}"></span>
                          | 发布时间:<span th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
@@ -64,6 +64,8 @@
             </div>
 <!--            回复输入框-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section" th:if="${session.user!=null}">
+                <h4>提交回复</h4>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 question-comment-sp" >
                 <div class="media">
                     <div class="media-left">
                         <a href="#">

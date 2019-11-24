@@ -12,7 +12,7 @@ public interface QuestionMapper {
             "values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
     void insert(Question question);
 
-    @Select("select * from question limit #{offset},#{size}")
+    @Select("select * from question ORDER BY gmt_create DESC limit #{offset},#{size} ")
     List<Question> list(@Param(value = "offset") Integer offset, @Param(value = "size")Integer size);
     @Select("select count(1) from question")
     Integer count();
