@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.cache.TagCache;
 import com.example.demo.dto.QuestionDto;
 import com.example.demo.pojo.Question;
 import com.example.demo.pojo.User;
 import com.example.demo.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,8 @@ public class PublishController {
     @Autowired
     QuestionService questionService;
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
     @PostMapping("/publish")
@@ -45,6 +48,10 @@ public class PublishController {
             model.addAttribute("error","标签不能为空");
             return "publish";
         }
+        if (StringUtils.isBlank(TagCache.filterInvalid(tag))){
+            model.addAttribute("error","输入非法标签"+TagCache.filterInvalid(tag));
+            return "publish";
+        }
         User user = (User)request.getSession().getAttribute("user");
         if(null==user){
             model.addAttribute("error","用户未登录");
@@ -56,6 +63,7 @@ public class PublishController {
         question.setTag(tag);
         question.setCreator(user.getId());
         question.setId(id);
+        model.addAttribute("tags", TagCache.get());
         questionService.createOrUpdate(question);
         return "redirect:/";
     }
@@ -69,6 +77,7 @@ public class PublishController {
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
         model.addAttribute("id",question.getId());
+        model.addAttribute("tags", TagCache.get());
         return "publish";
         }
         else

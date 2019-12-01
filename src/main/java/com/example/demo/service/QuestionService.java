@@ -9,12 +9,14 @@ import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.pojo.Question;
 import com.example.demo.pojo.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -48,7 +50,7 @@ public class QuestionService {
             questionDto.setUser(user);
             questionDtos.add(questionDto);
         }
-        pageDto.setQuestionDtos(questionDtos);
+        pageDto.setData(questionDtos);
         return  pageDto;
     }
     public PageDto listByuserId( Integer userId,Integer page, Integer size){
@@ -78,7 +80,7 @@ public class QuestionService {
             questionDto.setUser(user);
             questionDtos.add(questionDto);
         }
-        pageDto.setQuestionDtos(questionDtos);
+        pageDto.setData(questionDtos);
         return  pageDto;
     }
 
@@ -108,5 +110,21 @@ public class QuestionService {
 
     public void incView(Integer id) {
         questionMapper.updateView(id);
+    }
+
+    public List<QuestionDto> selectRelate(QuestionDto questionDto) {
+        if (StringUtils.isBlank(questionDto.getTag()))
+            return new ArrayList<>();
+        StringUtils.replace(questionDto.getTag(),",","|");
+        Question question=new Question();
+        question.setId(questionDto.getId());
+        question.setTag(questionDto.getTag());
+        List<Question> questionList = questionMapper.listByTag(question);
+        List<QuestionDto> questionDtos = questionList.stream().map(q -> {
+            QuestionDto questionDto1=new QuestionDto();
+            BeanUtils.copyProperties(q,questionDto1);
+            return questionDto1;
+        }).collect(Collectors.toList());
+        return questionDtos;
     }
 }

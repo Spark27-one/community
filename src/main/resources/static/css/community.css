@@ -22,6 +22,22 @@ body{
 .profile-list{
     margin-top: 20px;
 }
+.sub-comment{
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 1px solid #eeeeee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+.sub-comment .btn{
+    margin: 10px 0px;
+}
+.replies-count{
+    margin-left: 5px;
+}
+.notifiername{
+    color: #337ab7;
+}
 .community-menu{
     color: #999;
     font-size: 13px;
@@ -46,6 +62,46 @@ body{
 .question-comment-sp{
     margin-top: 0px;
 }
+.question-tag{
+    margin-right: 5px;
+}
+.question-related{
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 0px;
+    list-style: none;
+    padding-left: 0px;
+}
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.publish-tag-tab .label-info {
+    white-space: normal;
+    margin: 5px 5px;
+    display: inline-block;
+}
+.community-tag:hover {
+    background-color: #339dff;
+    color: #fff !important;
+    text-decoration-line: none;
+}
+
+.community-tag {
+    text-decoration-line: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    line-height: 16px;
+    padding: 2px 5px;
+    background-color: #99cfff;
+    font-size: 12px;
+    color: #fff !important;
+    border-radius: 4px;
+    margin: 4px;
+}
 .menu{
     color: #999;
     margin-top: 5px;
@@ -58,9 +114,25 @@ body{
 .menu .icon:hover{
     color: #499ef3;
 }
+.menu .comment-icon {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .comment-icon :hover {
+    color: #499ef3;
+}
 .comments{
     padding-bottom: 5px;
     margin-bottom: 15px;
     border-bottom: 1px solid #eeeeee;
 }
-
+.comment-name{
+    margin: 5px;
+}
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: #666;;
+    padding: 0 0 15px 0;
+}

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.PageDto;
 import com.example.demo.pojo.User;
+import com.example.demo.service.NotificationService;
 import com.example.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,8 @@ public class ProfileController {
 
     @Autowired
     QuestionService questionService;
+    @Autowired
+    NotificationService notificationService;
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action,
                           Model model,
@@ -29,14 +32,15 @@ public class ProfileController {
         if ("questions".equals(action)){
             model.addAttribute("section","questions");
             model.addAttribute("sectionName","我的提问");
+            PageDto pageDto = questionService.listByuserId(user.getId(), page, size);
+            model.addAttribute("pageDto",pageDto);
         }
         if ("replies".equals(action)){
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
+            PageDto pageDto = notificationService.list(user.getId(), page, size);
+            model.addAttribute("pageDto",pageDto);
         }
-
-        PageDto pageDto = questionService.listByuserId(user.getId(), page, size);
-        model.addAttribute("pageDto",pageDto);
         return "profile";
     }
 }
